@@ -10,7 +10,7 @@ Milestone 1 implements AUTH-001, repeated network logon failures followed by suc
 | --- | --- |
 | CSV validation, Python detector, tests, authentication report | Implemented; local verification recorded separately |
 | KQL learning example | Illustrative; no Kusto/Sentinel/Defender execution |
-| GitHub Actions configuration | Written; not run on GitHub |
+| GitHub Actions | [Passed on GitHub](https://github.com/husseinabdulkader/windows-soc-investigation-lab/actions/runs/41594928632): data validation and 21 tests |
 | Windows VM collection | Documented next exercise; not performed |
 | Privileged group changes, suspicious PowerShell | Planned, not implemented |
 | Sentinel / Defender XDR integration | Optional, not deployed |
@@ -36,7 +36,7 @@ The dashed path is planned. The current utility deliberately accepts only synthe
 
 ## Prerequisites and quick start
 
-Python 3.11+ is the intended minimum (only 3.14.2 locally verified), no third-party dependencies. Git is optional for running the files. A Windows licence, VM, administrator account, network connection, and cloud account are not required for this offline exercise. Windows and Linux are intended targets; Windows execution is verified locally.
+Python 3.11+ is the intended minimum (3.14.2 locally verified, Python 3.14 tested in GitHub CI), no third-party dependencies. Git is optional for running the files. A Windows licence, VM, administrator account, network connection, and cloud account are not required for this offline exercise. Windows execution is verified locally and Linux execution through the linked Ubuntu CI run.
 
 Open a terminal **in this repository folder** and run each command separately:
 

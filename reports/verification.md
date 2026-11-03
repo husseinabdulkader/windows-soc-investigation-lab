@@ -50,7 +50,7 @@ Line-ending conversion or subsequent edits can change hashes. These identify loc
 - Independent authorship and unguided proficiency; learner-reported guided reproduction is recorded below.
 - KQL syntax/runtime behaviour in a Kusto service; no live platform query was run.
 - Real Windows audit collection, native EVTX conversion and sanitized real-log ingestion.
-- GitHub Actions execution, Linux execution and Python versions other than 3.14.2.
+- Python versions other than the locally tested 3.14.2 and the GitHub CI Python 3.14 environment.
 - Sentinel/Defender licensing in an actual tenant, agents, roles, connectors, rules or alerts.
 - Current CompTIA exam availability/latest blueprint revision: mapping is pinned to accessible official SY0-701 v6.0 objectives. SC-200 guide effective October 21, 2026 was checked.
 - Privileged group membership and PowerShell cases: planned only.
@@ -58,3 +58,7 @@ Line-ending conversion or subsequent edits can change hashes. These identify loc
 ## Learner acceptance checkpoint
 
 During guided learning, the learner reported reproducing all three alerts, editing E06 by one second to obtain two alerts, and running all 21 tests successfully. They discussed alert-versus-incident reasoning and corrected the distinction between event IDs, accounts, destination and source. These are learner-reported actions and guided explanations, separate from the agent-observed checks above. Independent authorship or complete mastery is not claimed. The next case can now begin with another small guided exercise.
+
+## Public release verification
+
+Published with explicit authorization to the public repository `husseinabdulkader/windows-soc-investigation-lab`. The initial remote head matched local commit `faeb75a7284d9a56c033210cade29147b3f2a768`. The [GitHub Actions run](https://github.com/husseinabdulkader/windows-soc-investigation-lab/actions/runs/41594928632) completed successfully on Ubuntu with Python 3.14, validating the dataset and running the test suite. Later documentation-only commits do not change the tested detector. The original local setup observations above are historical, not current remote configuration. No CV, private contact details, raw logs or practice CSV were included in the reviewed commit; commit attribution uses a GitHub noreply address.
