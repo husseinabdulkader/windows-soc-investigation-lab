@@ -1,0 +1,64 @@
+// SYNTHETIC teaching query, not executed in Kusto or a live platform.
+// Custom schema: not SecurityEvent or DeviceLogonEvents.
+// One success per correlation key in this fixture. No intervening-success reset.
+// Expected by manual reasoning: P06, A06, E06. See docs/detection.md for limits.
+let Events = datatable(RecordId:string, Time:datetime, EventId:int, Computer:string,
+                      Domain:string, User:string, IP:string, LogonType:int)
+[
+    "P01", datetime(2026-01-15T09:00:00Z), 4625, "LAB-FS01", "LAB", "analyst01", "192.0.2.10", 3,
+    "P02", datetime(2026-01-15T09:01:00Z), 4625, "LAB-FS01", "LAB", "analyst01", "192.0.2.10", 3,
+    "P03", datetime(2026-01-15T09:02:00Z), 4625, "LAB-FS01", "LAB", "analyst01", "192.0.2.10", 3,
+    "P04", datetime(2026-01-15T09:03:00Z), 4625, "LAB-FS01", "LAB", "analyst01", "192.0.2.10", 3,
+    "P05", datetime(2026-01-15T09:04:00Z), 4625, "LAB-FS01", "LAB", "analyst01", "192.0.2.10", 3,
+    "P06", datetime(2026-01-15T09:05:00Z), 4624, "LAB-FS01", "LAB", "analyst01", "192.0.2.10", 3,
+    "B01", datetime(2026-01-15T10:00:00Z), 4625, "LAB-FS01", "LAB", "helpdesk01", "192.0.2.20", 3,
+    "B02", datetime(2026-01-15T10:01:00Z), 4625, "LAB-FS01", "LAB", "helpdesk01", "192.0.2.20", 3,
+    "B03", datetime(2026-01-15T10:02:00Z), 4624, "LAB-FS01", "LAB", "helpdesk01", "192.0.2.20", 3,
+    "A01", datetime(2026-01-15T11:00:00Z), 4625, "LAB-FS01", "LAB", "support01", "192.0.2.30", 3,
+    "A02", datetime(2026-01-15T11:01:00Z), 4625, "LAB-FS01", "LAB", "support01", "192.0.2.30", 3,
+    "A03", datetime(2026-01-15T11:02:00Z), 4625, "LAB-FS01", "LAB", "support01", "192.0.2.30", 3,
+    "A04", datetime(2026-01-15T11:03:00Z), 4625, "LAB-FS01", "LAB", "support01", "192.0.2.30", 3,
+    "A05", datetime(2026-01-15T11:04:00Z), 4625, "LAB-FS01", "LAB", "support01", "192.0.2.30", 3,
+    "A06", datetime(2026-01-15T11:05:00Z), 4624, "LAB-FS01", "LAB", "support01", "192.0.2.30", 3,
+    "E01", datetime(2026-01-15T12:00:00Z), 4625, "LAB-FS01", "LAB", "boundary01", "192.0.2.40", 3,
+    "E02", datetime(2026-01-15T12:01:00Z), 4625, "LAB-FS01", "LAB", "boundary01", "192.0.2.40", 3,
+    "E03", datetime(2026-01-15T12:02:00Z), 4625, "LAB-FS01", "LAB", "boundary01", "192.0.2.40", 3,
+    "E04", datetime(2026-01-15T12:03:00Z), 4625, "LAB-FS01", "LAB", "boundary01", "192.0.2.40", 3,
+    "E05", datetime(2026-01-15T12:05:00Z), 4625, "LAB-FS01", "LAB", "boundary01", "192.0.2.40", 3,
+    "E06", datetime(2026-01-15T12:10:00Z), 4624, "LAB-FS01", "LAB", "boundary01", "192.0.2.40", 3,
+    "N01", datetime(2026-01-15T13:00:00Z), 4625, "LAB-FS01", "LAB", "below01", "192.0.2.50", 3,
+    "N02", datetime(2026-01-15T13:01:00Z), 4625, "LAB-FS01", "LAB", "below01", "192.0.2.50", 3,
+    "N03", datetime(2026-01-15T13:02:00Z), 4625, "LAB-FS01", "LAB", "below01", "192.0.2.50", 3,
+    "N04", datetime(2026-01-15T13:03:00Z), 4625, "LAB-FS01", "LAB", "below01", "192.0.2.50", 3,
+    "N05", datetime(2026-01-15T13:04:00Z), 4624, "LAB-FS01", "LAB", "below01", "192.0.2.50", 3,
+    "L01", datetime(2026-01-15T14:00:00Z), 4625, "LAB-FS01", "LAB", "late01", "192.0.2.60", 3,
+    "L02", datetime(2026-01-15T14:01:00Z), 4625, "LAB-FS01", "LAB", "late01", "192.0.2.60", 3,
+    "L03", datetime(2026-01-15T14:02:00Z), 4625, "LAB-FS01", "LAB", "late01", "192.0.2.60", 3,
+    "L04", datetime(2026-01-15T14:03:00Z), 4625, "LAB-FS01", "LAB", "late01", "192.0.2.60", 3,
+    "L05", datetime(2026-01-15T14:04:00Z), 4625, "LAB-FS01", "LAB", "late01", "192.0.2.60", 3,
+    "L06", datetime(2026-01-15T14:09:01Z), 4624, "LAB-FS01", "LAB", "late01", "192.0.2.60", 3
+];
+// Normalize names, retain only network logons with a usable IP.
+let Scoped = Events
+    | where LogonType == 3 and isnotempty(IP) and IP != "-"
+    | extend Computer=tolower(Computer), Domain=tolower(Domain), User=tolower(User);
+let Failures = Scoped | where EventId == 4625
+    | project Computer, Domain, User, IP, LogonType,
+              FailureTime=Time, FailureId=RecordId;
+Scoped
+| where EventId == 4624
+| project Computer, Domain, User, IP, LogonType, SuccessTime=Time, SuccessId=RecordId
+// Explicit inner join avoids the default innerunique behaviour dropping successes.
+| join kind=inner Failures on Computer, Domain, User, IP, LogonType
+| where FailureTime < SuccessTime and FailureTime >= SuccessTime - 10m
+| summarize LastFailure=max(FailureTime),
+            Evidence=make_list(bag_pack("time", FailureTime, "id", FailureId))
+    by Computer, Domain, User, IP, LogonType, SuccessTime, SuccessId
+| where SuccessTime - LastFailure <= 5m
+| mv-expand Evidence
+| extend FailureTime=todatetime(Evidence.time), FailureId=tostring(Evidence.id)
+| where FailureTime >= LastFailure - 5m
+| summarize FailureCount=count(), FailureIds=make_set(FailureId)
+    by Computer, Domain, User, IP, LogonType, SuccessTime, SuccessId, LastFailure
+| where FailureCount >= 5
+| order by SuccessTime asc

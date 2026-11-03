@@ -1,0 +1,65 @@
+{
+  "event_count": 32,
+  "alerts": [
+    {
+      "rule": "AUTH-001",
+      "synthetic": true,
+      "success_record_id": "P06",
+      "success_time": "2026-01-15T09:05:00Z",
+      "computer": "LAB-FS01",
+      "account": "LAB\\analyst01",
+      "source_ip": "192.0.2.10",
+      "logon_type": 3,
+      "failure_count": 5,
+      "first_failure_time": "2026-01-15T09:00:00Z",
+      "last_failure_time": "2026-01-15T09:04:00Z",
+      "failure_record_ids": [
+        "P01",
+        "P02",
+        "P03",
+        "P04",
+        "P05"
+      ]
+    },
+    {
+      "rule": "AUTH-001",
+      "synthetic": true,
+      "success_record_id": "A06",
+      "success_time": "2026-01-15T11:05:00Z",
+      "computer": "LAB-FS01",
+      "account": "LAB\\support01",
+      "source_ip": "192.0.2.30",
+      "logon_type": 3,
+      "failure_count": 5,
+      "first_failure_time": "2026-01-15T11:00:00Z",
+      "last_failure_time": "2026-01-15T11:04:00Z",
+      "failure_record_ids": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A05"
+      ]
+    },
+    {
+      "rule": "AUTH-001",
+      "synthetic": true,
+      "success_record_id": "E06",
+      "success_time": "2026-01-15T12:10:00Z",
+      "computer": "LAB-FS01",
+      "account": "LAB\\boundary01",
+      "source_ip": "192.0.2.40",
+      "logon_type": 3,
+      "failure_count": 5,
+      "first_failure_time": "2026-01-15T12:00:00Z",
+      "last_failure_time": "2026-01-15T12:05:00Z",
+      "failure_record_ids": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E05"
+      ]
+    }
+  ]
+}
