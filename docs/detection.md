@@ -13,7 +13,7 @@ Status: implemented in `analyze.py`; local tests documented in the verification 
 
 These are rolling windows anchored to actual events, not fixed five-minute clock bins. A boundary-crossing burst must not disappear simply because the clock passes 09:05. Two windows mean a sequence can span ten minutes; the bundled E case demonstrates that.
 
-The threshold is a transparent teaching choice. It is not derived from business baselines or validated production precision/recall. The output contains facts, not an automatically assigned incident severity.
+The threshold is a configurable lab default. It is not derived from business baselines or validated production precision/recall. The output contains facts, not an automatically assigned incident severity.
 
 ## False positives and missing coverage
 
@@ -25,6 +25,6 @@ Distributed guessing, password spraying across accounts, low-rate attacks, succe
 
 Review distributions by account type and destination before changing the count/window. Track known authorized events and unexplained alerts separately. Use narrowly scoped, time-limited exceptions supported by evidence; retain the source records. Test below, at and above any new threshold. Larger windows catch slower activity but may connect unrelated retries. Lower thresholds increase sensitivity and analyst workload. This fixture is too small to estimate accuracy or choose a production threshold.
 
-## Query learning
+## KQL reference example
 
 `queries/authentication-demo.kql` shows a self-contained table, filtering, joining and time-window counting. It is **illustrative and unexecuted in Kusto**. It uses only one success per account and does not implement Python's intervening-success reset. Do not substitute it for the Python detector or label it a deployed Sentinel rule. See [platform boundaries](platforms.md) before using any tenant table.

@@ -1,6 +1,6 @@
 # Data contract and synthetic scenarios
 
-`data/authentication.csv` is UTF-8 CSV, schema version 1. It is a reduced teaching model inspired by Windows Security events, **not Windows CSV export format**, a Sentinel table, or a Defender hunting table. All identities, hosts, addresses, timestamps, events and scenario context are invented. `192.0.2.0/24` addresses are used as example identifiers, not reachable lab targets.
+`data/authentication.csv` is UTF-8 CSV, schema version 1. It is a reduced data model inspired by Windows Security events, **not Windows CSV export format**, a Sentinel table, or a Defender hunting table. All identities, hosts, addresses, timestamps, events and scenario context are invented. `192.0.2.0/24` addresses are used as example identifiers, not reachable lab targets.
 
 Header order is enforced. Values must not contain surrounding whitespace. All rows must pass validation before detection begins.
 
@@ -33,6 +33,6 @@ All events occur on 2026-01-15 UTC, on `LAB-FS01`, in domain `LAB`, with logon t
 | N01–N05 | Four failures, then success 13:04 | No alert; below count threshold |
 | L01–L06 | Five failures ending 14:04; success 14:09:01 | No alert; one second beyond success window |
 
-The scenario descriptions are author-supplied ground truth for teaching. They are not independent evidence or real support tickets. Additional malformed and correlation cases are constructed by the tests.
+The scenario descriptions are fixture definitions. They are not independent evidence or real support tickets. Additional malformed and correlation cases are constructed by the tests.
 
 Official field references: [4624](https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4624), [4625](https://learn.microsoft.com/en-us/windows/security/threat-protection/auditing/event-4625). Checked 2026-11-03. Fields vary by event/version; this subset deliberately omits context required for a real compromise verdict.

@@ -34,7 +34,7 @@ No hypothesis is proven. The input lacks enough evidence to distinguish a malici
 
 ## Severity and response decision
 
-Use **medium triage priority**, with low confidence in malicious intent: successful authentication after repeated failure deserves review, but neither privilege nor impact is known. This is an analyst teaching judgment, not a measured business risk score.
+Use **medium triage priority**, with low confidence in malicious intent: successful authentication after repeated failure deserves review, but neither privilege nor impact is known. This is an qualitative triage assessment, not a measured business risk score.
 
 First preserve the relevant original logs and confirm clocks, host identity, account type and audit coverage. In a real authorized investigation, verify the account owner's activity through a trusted channel and review the source endpoint plus subsequent resource access. Do not disable an account solely because AUTH-001 triggered.
 
@@ -44,10 +44,8 @@ If authorized troubleshooting is confirmed, document the evidence, repair the cr
 
 ## Controls and comparison cases
 
-The A sequence produces the same kind of alert, but the synthetic manifest stipulates authorized troubleshooting. In a real case that assertion would need a verified support record; here it only teaches why a pattern can have benign intent. B and N do not meet the failure threshold. E triggers at both exact time boundaries. L misses the success window by one second. Non-alerting cases are not automatically safe; they simply do not satisfy this rule.
+The A sequence produces the same kind of alert, but the synthetic manifest stipulates authorized troubleshooting. In a real case that assertion would need a verified support record; here it demonstrates that the same pattern can have benign intent. B and N do not meet the failure threshold. E triggers at both exact time boundaries. L misses the success window by one second. Non-alerting cases are not automatically safe; they simply do not satisfy this rule.
 
 ## Lessons learned
 
 Separate an observation from its interpretation. Match the target account, not the account reporting the event. Preserve domain and destination to avoid mixing identities. Test time boundaries, not just a happy path. Record missing evidence explicitly. Do not report production detection rates from a tiny synthetic fixture.
-
-Learner task: reproduce the three alerts, manually calculate P and E, then explain why A still triggers. Record your own answers before claiming independent project proficiency.

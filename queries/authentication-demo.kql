@@ -1,4 +1,4 @@
-// SYNTHETIC teaching query, not executed in Kusto or a live platform.
+// SYNTHETIC illustrative query, not executed in Kusto or a live platform.
 // Custom schema: not SecurityEvent or DeviceLogonEvents.
 // One success per correlation key in this fixture. No intervening-success reset.
 // Expected by manual reasoning: P06, A06, E06. See docs/detection.md for limits.

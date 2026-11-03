@@ -1,6 +1,6 @@
 # Platform boundaries and optional extensions
 
-Current route: offline synthetic CSV and Python, zero cloud cost. No tenant, agent, licence purchase, Azure resource, cloud upload or trial has been created. The KQL file is for reading and later practice; it requires no ingested tenant data but still needs an authorized Kusto-compatible execution surface to run. None was used here.
+Current route: offline synthetic CSV and Python, zero cloud cost. No tenant, agent, licence purchase, Azure resource, cloud upload or trial has been created. The KQL file is an illustrative reference; it requires no ingested tenant data but still needs an authorized Kusto-compatible execution surface to run. None was used here.
 
 ## Schemas are different
 

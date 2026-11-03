@@ -1,21 +1,10 @@
 # windows-soc-investigation-lab
 
-A small, offline SOC portfolio lab: turn synthetic Windows authentication records into an explainable alert and an evidence-based investigation. Intended for junior SOC analyst and security-focused IT support applications.
+An offline Windows authentication analysis project with Python detection logic, reproducible test cases, and evidence-based investigation reports.
 
-## Status and honesty
+AUTH-001 correlates repeated failed network logons with a subsequent successful logon and produces JSON alerts with supporting evidence IDs. The repository includes 32 explicitly synthetic records, 21 automated tests, and an investigation report.
 
-Milestone 1 implements AUTH-001, repeated network logon failures followed by success. Data is **entirely synthetic**, not exported from Windows or an employer. Python output is reproducible; see [verification](reports/verification.md) for actual checks and limits. Built with AI assistance and guided learning: the learner reported reproducing the alerts, testing a one-second boundary change and passing all 21 tests. These exercises do not claim independent authorship or production experience.
-
-| Component | Status |
-| --- | --- |
-| CSV validation, Python detector, tests, authentication report | Implemented; local verification recorded separately |
-| KQL learning example | Illustrative; no Kusto/Sentinel/Defender execution |
-| GitHub Actions | [Passed on GitHub](https://github.com/husseinabdulkader/windows-soc-investigation-lab/actions/runs/41594928632): data validation and 21 tests |
-| Windows VM collection | Documented next exercise; not performed |
-| Privileged group changes, suspicious PowerShell | Planned, not implemented |
-| Sentinel / Defender XDR integration | Optional, not deployed |
-
-No certifications, enterprise incident handling, or live SIEM experience are claimed. Security+ and SC-200 are study plans, not earned credentials. No Azure or other paid cloud resources have been provisioned.
+[CI results](https://github.com/husseinabdulkader/windows-soc-investigation-lab/actions/workflows/ci.yml) · [Detection specification](docs/detection.md) · [Investigation report](reports/authentication-investigation.md)
 
 ## Problem and architecture
 
@@ -36,7 +25,7 @@ The dashed path is planned. The current utility deliberately accepts only synthe
 
 ## Prerequisites and quick start
 
-Python 3.11+ is the intended minimum (3.14.2 locally verified, Python 3.14 tested in GitHub CI), no third-party dependencies. Git is optional for running the files. A Windows licence, VM, administrator account, network connection, and cloud account are not required for this offline exercise. Windows execution is verified locally and Linux execution through the linked Ubuntu CI run.
+Python 3.11+ is the intended minimum (3.14.2 locally verified, Python 3.14 tested in GitHub CI), no third-party dependencies. Git is optional for running the files. A Windows licence, VM, administrator account, network connection, and cloud account are not required for this offline workflow. Windows execution is verified locally and Linux execution through the linked Ubuntu CI run.
 
 Open a terminal **in this repository folder** and run each command separately:
 
@@ -51,30 +40,30 @@ The first command checks your interpreter. The second checks the data contract. 
 
 Expected: **32 records** and **3 alerts**, for success IDs `P06`, `A06`, and `E06`. One alert is an intentionally authorized troubleshooting case, not proof of an attack. Compare the output with [expected-alerts.json](reports/expected-alerts.json).
 
-## Read in this order
+## Documentation
 
 1. [Schema and scenario manifest](docs/schema.md): what the fields mean.
 2. [Detection specification](docs/detection.md): exact rule, limits and tuning.
 3. [Authentication investigation](reports/authentication-investigation.md): evidence versus assumptions.
-4. [Setup, troubleshooting and cleanup](docs/setup.md): personal exercises and optional VM observation.
+4. [Setup, troubleshooting and cleanup](docs/setup.md): execution, troubleshooting and optional event collection.
 5. [Platform boundaries](docs/platforms.md): KQL, Sentinel and Defender prerequisites.
-6. [Skills and interview preparation](docs/skills-and-interview.md).
+6. [Security objectives mapping](docs/objectives-mapping.md).
 
-## Demonstrated skills
+## Technical coverage
 
-Input validation, timestamp handling, account/host/source correlation, sliding time windows, false-positive analysis, evidence references, investigation writing and automated regression tests. These build on account administration and IT troubleshooting; they do not demonstrate operational Sentinel or Defender proficiency.
+Input validation, timestamp handling, account/host/source correlation, sliding time windows, false-positive analysis, evidence references, investigation writing and automated regression tests.
 
 ## Limitations
 
-Small in-memory batch analysis, not a streaming SIEM. Only logon type 3 with a known IP is detected. There is no EVTX parser, domain-controller authentication protocol analysis, password-spray rule, automatic response, or telemetry completeness guarantee. A successful logon does not prove what the account did afterward. Fixed thresholds and synthetic examples cannot establish production detection accuracy. IP matching can miss distributed attacks and conflate users behind shared infrastructure.
+Small in-memory batch analysis, not a streaming SIEM. Only logon type 3 with a known IP is detected. There is no EVTX parser, domain-controller authentication protocol analysis, password-spray rule, automatic response, or telemetry completeness guarantee. A successful logon does not prove what the account did afterward. Fixed thresholds and synthetic examples cannot establish production detection accuracy. IP matching can miss distributed attacks and conflate users behind shared infrastructure. KQL examples are illustrative and have not been executed in a live platform. Windows event collection and Sentinel/Defender integrations are documented extensions, not deployed components. See [verification](reports/verification.md) for tested environments and outstanding validation.
 
-## Milestones
+## Roadmap
 
-1. Authentication: complete the offline implementation, tests and report; learner reproduces and explains the result.
-2. [Unexpected privileged group membership changes](docs/next-investigation.md): next guided investigation, starting with the actor/member/group distinction. Detection implementation is planned.
+1. **Implemented:** authentication detection, schema validation, regression tests and investigation report.
+2. **Planned:** [unexpected privileged group membership changes](docs/next-investigation.md), including authorization context and a separate detection schema.
 3. Add suspicious PowerShell activity with logging prerequisites, benign administration examples, and no automatic conclusion that PowerShell use is malicious.
 4. Optionally collect sanitized VM evidence, then consider cloud integration only if explicitly authorized and funded/licensed.
 
-## Privacy and publication
+## Data handling
 
-Only synthetic data belongs in the current tracked dataset. Keep personal CVs, contact details, employer identifiers, credentials and raw captures out of the repository. `.gitignore` helps prevent accidents but does not sanitize data or remove files already tracked. Review `git status` and every staged diff before publication. Practice copies are excluded from version control.
+The committed dataset is entirely synthetic. Raw captures, credentials, personal information and organization-specific data are excluded. Local evidence and modified test copies belong in ignored directories; `.gitignore` does not sanitize file contents.

@@ -1,40 +1,23 @@
-# Setup, personal exercises and cleanup
+# Setup, troubleshooting and cleanup
 
-## First session: offline, no VM required
+## Offline execution
 
-Use the README quick-start commands in the folder containing `analyze.py`. No package installation or virtual environment is needed because this uses only Python's standard library. Do not run commands as administrator for the offline utility.
+Run the README quick-start commands from the directory containing `analyze.py`. The utility uses only Python's standard library and requires no administrator privileges, VM or cloud connection.
 
-1. Validate the CSV and run the detector. Find P06 in the JSON. Locate its five evidence rows in the CSV.
-2. Calculate the first-to-last failure interval and last-failure-to-success interval yourself.
-3. Run the tests. A passing test means an explicitly checked behaviour worked; it does not prove all inputs or real attacks are covered.
-4. Copy the CSV into `local-results/` (create that folder yourself). In the copy, change E06 from `12:10:00Z` to `12:10:01Z`. Run the utility against the copy: expect two alerts. Restore the time and expect three. Keep the original fixture unchanged.
-5. Explain why A06 is still an alert even though the scenario manifest says it is authorized. Write your answer before reading the report's comparison section.
+## Reproduction checks
 
-Suggested learning pace: two focused sessions for reading/running and a third for changing a case and explaining the code. More free time does not require rushing into a larger lab.
+1. Validate the CSV and run the detector. Expect 32 records and three alerts: P06, A06 and E06.
+2. Compare the JSON evidence IDs with the corresponding source records and `reports/expected-alerts.json`.
+3. Run `python -m unittest discover -s tests -v`. Expect 21 passing tests.
+4. For a manual boundary check, copy the CSV into ignored `local-results/`. Change E06 from `12:10:00Z` to `12:10:01Z` in the copy and analyze it. Expect two alerts. Restore the timestamp to obtain three. Preserve the original fixture.
 
-## Local Git basics
+The authorized troubleshooting case A06 intentionally satisfies the detection rule. Authorization is scenario context, not an input to this detector.
 
-Git tracks versions; GitHub hosts shared repositories. Running Python does not require either. The first milestone was prepared locally and subsequently authorized for public GitHub publication. After publication, `origin` points to the portfolio repository.
+## Optional Windows event collection
 
-```text
-git status --short
-```
+This procedure is documented but has not been validated against a live Windows VM. It requires an appropriately licensed Windows guest and administrative access. The offline synthetic workflow has no Windows licensing dependency.
 
-Open README.md to review it. Before staging, inspect the file list and ensure it contains only the synthetic lab materials. When you are ready to make your own local commit:
-
-```text
-git add README.md analyze.py data docs queries reports tests .gitignore .github
-git diff --cached --stat
-git diff --cached
-```
-
-`add` stages the named files; `diff --cached` shows exactly what a future commit would contain. It does not upload them. The publication workflow uses a repository-local GitHub username and GitHub noreply email to avoid exposing a private email. Review future changes before committing or pushing them. GitHub CI is not considered verified until an actual hosted run succeeds.
-
-## Optional next exercise: observe a Windows event
-
-Status: documented, not performed or verified on your VM. Your 32 GB RAM and 2 TB SSD are sufficient for a small lab, but the hypervisor and guest OS versions remain unspecified. Start with an existing Windows guest, not a new purchase. Use a legitimate existing licence or a suitable evaluation under its terms; synthetic analysis avoids any Windows licensing dependency.
-
-Use an isolated virtual switch without a bridge to work, school or household production networks. Take a VM snapshot before policy changes. Use invented lab accounts and no employer data. A separate client and server are helpful later for network logons; signing in at the VM console usually exercises another logon type and will not satisfy AUTH-001.
+Use an isolated virtual switch without a bridge to work, school or household production networks. Take a VM snapshot before policy changes. Use invented lab accounts and no employer data. A separate client and server are helpful for network logons; signing in at the VM console usually exercises another logon type and will not satisfy AUTH-001.
 
 On the target Windows VM, open an elevated Command Prompt and inspect policy:
 
@@ -44,7 +27,7 @@ auditpol /get /subcategory:*
 
 This lists effective audit settings; it does not change them. Locate the Logon subcategory (names can be localized). Save your existing settings privately or use the VM snapshot for restoration.
 
-On Windows editions exposing Local Security Policy, open `secpol.msc`, then Advanced Audit Policy Configuration > System Audit Policies > Logon/Logoff > Audit Logon. Configure Success and Failure for this lab exercise. On a domain member, controlling Group Policy can override local changes; inspect the effective policy again. Avoid mixing basic and advanced audit policy settings. Confirm the setting that forces audit subcategory policy to override legacy category settings where applicable.
+On Windows editions exposing Local Security Policy, open `secpol.msc`, then Advanced Audit Policy Configuration > System Audit Policies > Logon/Logoff > Audit Logon. Configure Success and Failure for collection. On a domain member, controlling Group Policy can override local changes; inspect the effective policy again. Avoid mixing basic and advanced audit policy settings. Confirm the setting that forces audit subcategory policy to override legacy category settings where applicable.
 
 Open Event Viewer > Windows Logs > Security. Filter for 4624 and 4625. Inspect Details > XML View, including the target account, computer, timestamp, source IP, logon type and failure status/substatus. Observe one authorized success and, if safe under your lab lockout policy, one manual incorrect-password attempt. Do not generate repeated failures until you understand the lab account lockout threshold. The synthetic dataset already provides the repeatable five-failure case.
 
@@ -71,4 +54,4 @@ Sources checked 2026-11-03: [Audit Logon](https://learn.microsoft.com/en-us/wind
 
 Offline commands do not modify system policy or create cloud resources. Remove your own temporary copies from `local-results/` when finished. Keep the delivered evidence and reports. Python may create ignored `__pycache__` directories, which can be deleted manually if desired.
 
-If you performed the VM exercise, preserve the evidence you need and restore the pre-exercise VM snapshot or your recorded policy settings. Remove only test accounts/resources you created. Do not clear Security logs as a cleanup shortcut. No cloud cleanup is needed for milestone 1.
+If you performed the VM collection procedure, preserve the evidence you need and restore the pre-exercise VM snapshot or your recorded policy settings. Remove only test accounts/resources you created. Do not clear Security logs as a cleanup shortcut. No cloud cleanup is needed for milestone 1.
