@@ -72,7 +72,7 @@ Small in-memory batch analysis, not a streaming SIEM. AUTH-001 covers only logon
 ## Roadmap
 
 1. **Implemented:** authentication detection, schema validation, regression tests and investigation report.
-2. **Implemented locally:** [administrator-group changes](docs/group-changes.md), separate approval data, schema validation and investigation report. Hosted validation for this extension is pending.
+2. **Implemented and verified:** [administrator-group changes](docs/group-changes.md), separate approval data, schema validation and investigation report. [GitHub Actions passed](https://github.com/husseinabdulkader/windows-soc-investigation-lab/actions/runs/42459814460), including all 36 tests.
 3. Add suspicious PowerShell activity with logging prerequisites, benign administration examples, and no automatic conclusion that PowerShell use is malicious.
 4. Optionally collect sanitized VM evidence, then consider cloud integration only if explicitly authorized and funded/licensed.
 
