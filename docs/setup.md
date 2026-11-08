@@ -8,7 +8,7 @@ Run the README quick-start commands from the directory containing `analyze.py`. 
 
 1. Validate the CSV and run the detector. Expect 32 records and three alerts: P06, A06 and E06.
 2. Compare the JSON evidence IDs with the corresponding source records and `reports/expected-alerts.json`.
-3. Run `python -m unittest discover -s tests -v`. Expect 21 passing tests.
+3. Run `python -m unittest discover -s tests -v`. Expect 36 passing tests across authentication and group-change rules.
 4. For a manual boundary check, copy the CSV into ignored `local-results/`. Change E06 from `12:10:00Z` to `12:10:01Z` in the copy and analyze it. Expect two alerts. Restore the timestamp to obtain three. Preserve the original fixture.
 
 The authorized troubleshooting case A06 intentionally satisfies the detection rule. Authorization is scenario context, not an input to this detector.

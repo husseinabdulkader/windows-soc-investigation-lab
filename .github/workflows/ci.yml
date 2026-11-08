@@ -14,3 +14,5 @@ jobs:
         run: python analyze.py data/authentication.csv --validate-only
       - name: Test detection and evidence
         run: python -m unittest discover -s tests -v
+      - name: Validate group events and approvals
+        run: python group_changes.py data/group-events.json data/group-approvals.json --validate-only

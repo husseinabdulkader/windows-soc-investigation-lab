@@ -50,7 +50,7 @@ Line-ending conversion or subsequent edits can change hashes. These identify loc
 - Python versions other than the locally tested 3.14.2 and the GitHub CI Python 3.14 environment.
 - Sentinel/Defender licensing in an actual tenant, agents, roles, connectors, rules or alerts.
 - Current CompTIA exam availability/latest blueprint revision: mapping is pinned to accessible official SY0-701 v6.0 objectives. SC-200 guide effective October 21, 2026 was checked.
-- Privileged group membership and PowerShell cases: planned only.
+- PowerShell case: planned. Administrator-group analysis is now locally verified; see [GROUP-001 verification](group-investigation.md).
 
 ## Public release verification
 
